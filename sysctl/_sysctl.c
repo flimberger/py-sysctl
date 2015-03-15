@@ -135,7 +135,7 @@ static int Sysctl_setvalue(Sysctl *self, PyObject *value, void *closure) {
 	switch(self->type) {
 		case CTLTYPE_INT:
 		case CTLTYPE_UINT:
-			if(value->ob_type != &PyInt_Type) {
+			if(value->ob_type != &PyLong_Type) {
 				PyErr_SetString(PyExc_TypeError, "Invalid type");
 				return -1;
 			}
@@ -145,7 +145,7 @@ static int Sysctl_setvalue(Sysctl *self, PyObject *value, void *closure) {
 			break;
 		case CTLTYPE_LONG:
 		case CTLTYPE_ULONG:
-			if(value->ob_type != &PyLong_Type && value->ob_type != &PyInt_Type) {
+			if(value->ob_type != &PyLong_Type) {
 				PyErr_SetString(PyExc_TypeError, "Invalid type");
 				return -1;
 			}
@@ -442,19 +442,19 @@ static PyObject *new_sysctlobj(int *oid, int nlen, u_int kind, char *fmt) {
 				PyObject *item;
 				value = PyDict_New();
 
-				item = PyInt_FromLong(ci->hz);
+				item = PyLong_FromLong(ci->hz);
 				PyDict_SetItemString(value, "hz", item);
 				Py_DECREF(item);
 
-				item = PyInt_FromLong(ci->tick);
+				item = PyLong_FromLong(ci->tick);
 				PyDict_SetItemString(value, "tick", item);
 				Py_DECREF(item);
 
-				item = PyInt_FromLong(ci->profhz);
+				item = PyLong_FromLong(ci->profhz);
 				PyDict_SetItemString(value, "profhz", item);
 				Py_DECREF(item);
 
-				item = PyInt_FromLong(ci->stathz);
+				item = PyLong_FromLong(ci->stathz);
 				PyDict_SetItemString(value, "stathz", item);
 				Py_DECREF(item);
 				break;
